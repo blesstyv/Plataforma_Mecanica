@@ -1,0 +1,53 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Django
+*.log
+staticfiles/
+media/
+local_settings.py
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+
+# Node.js / React / Vite
+node_modules/
+dist/
+coverage/
+.vite/
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+
+# Bases de datos locales
+*.sqlite3
+*.sqlite3-journal
+*.dump
+*.backup

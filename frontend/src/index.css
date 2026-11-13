@@ -1,0 +1,74 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/geist-mono';
+@import 'tailwindcss';
+
+/* Estilo "Neon": vacío negro, superficies grafito en capas, único acento verde eléctrico. Solo tema oscuro. */
+:root {
+  --bg: #000000;
+  --surface: #151617;
+  --surface-2: #242628;
+  --ink: #ffffff;
+  --muted: #797d86;
+  --line: #303236;
+  --primary: #ffffff;
+  --primary-hover: #c9cbcf;
+  --on-primary: #151617;
+  --accent: #34d59a;
+  --accent-soft: #0e2a20;
+  --electric: #34d59a;
+  --success: #34d59a;
+  --success-soft: #0e2a20;
+  --warn: #c9cbcf;
+  --warn-soft: #242628;
+  --danger: #ff3621;
+  --danger-soft: #2a0f0b;
+  --ring: #34d59a;
+  --hero-from: #000000;
+  --hero-to: #000000;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-electric: var(--electric);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius-card: 4px;
+  --shadow-card: none;
+}
+
+html { color-scheme: dark; scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; letter-spacing: -0.01em; }
+h1, h2, h3 { font-family: var(--font-sans); font-weight: 500; letter-spacing: -0.03em; }
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 4px; }
+input[type='file']::file-selector-button { margin-right: 0.75rem; border: 0; border-radius: 9999px; background: var(--surface-2); color: var(--ink); padding: 0.25rem 0.9rem; font-size: 0.8rem; cursor: pointer; }
+
+/* Gráfico decorativo: finas líneas verticales tipo flujo de datos */
+.blueprint {
+  background-image: repeating-linear-gradient(to right, rgb(52 213 154 / 0.22) 0 1px, transparent 1px 14px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 60%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 60%, transparent);
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.gear-spin { animation: spin-slow 40s linear infinite; }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.skeleton { background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.6s infinite; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}

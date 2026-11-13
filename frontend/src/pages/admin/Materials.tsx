@@ -94,7 +94,7 @@ function MaterialForm({ material, cats, onDone }: { material: AdminMaterial | nu
 
   return (
     <form noValidate className="space-y-4" onSubmit={handleSubmit((v) => { setError(''); setPct(0); save.mutate(v) })}>
-      {error && <p role="alert" className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">{error}</p>}
+      {error && <p role="alert" className="rounded-[4px] bg-danger-soft px-3 py-2 text-sm text-danger">{error}</p>}
       <Field label="Título" error={errors.title?.message}>{(p) => <Input {...p} {...register('title')} />}</Field>
       <Field label="Categoría" error={errors.category?.message}>{(p) => <CategorySelect cats={cats} {...p} {...register('category')} />}</Field>
       <Field label="Descripción" error={errors.description?.message}>{(p) => <Textarea {...p} {...register('description')} />}</Field>
@@ -151,7 +151,7 @@ export default function Materials() {
       <PageHeader title="Materiales" description="Sube, edita y publica documentos para tus alumnos." action={<Button disabled={noCats} onClick={() => setEditing('new')}><Plus className="size-4" aria-hidden />Subir material</Button>} />
       <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_10rem_10rem]" role="search">
         <div className="relative"><label htmlFor="am-q" className="sr-only">Buscar materiales</label><Search className="pointer-events-none absolute left-3 top-3 size-4 text-muted" aria-hidden />
-          <input id="am-q" value={term} onChange={(e) => { setTerm(e.target.value); setPage(1) }} placeholder="Buscar por título o archivo" className="h-10 w-full rounded-lg border border-line bg-surface pl-9 pr-3 text-sm focus:border-electric" /></div>
+          <input id="am-q" value={term} onChange={(e) => { setTerm(e.target.value); setPage(1) }} placeholder="Buscar por título o archivo" className="h-10 w-full rounded-[4px] border border-line bg-surface pl-9 pr-3 text-sm focus:border-electric" /></div>
         <div><label htmlFor="am-s" className="sr-only">Estado</label><Select id="am-s" value={status} onChange={(e) => { setStatus(e.target.value); setPage(1) }}><option value="">Todos los estados</option><option value="published">Publicados</option><option value="draft">Borradores</option></Select></div>
         <div><label htmlFor="am-t" className="sr-only">Formato</label><Select id="am-t" value={type} onChange={(e) => { setType(e.target.value); setPage(1) }}><option value="">Todos los formatos</option><option value="pdf">PDF</option><option value="pptx">PowerPoint</option><option value="docx">Word</option><option value="jpg">JPG</option><option value="png">PNG</option></Select></div>
       </div>

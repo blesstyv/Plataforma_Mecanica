@@ -42,7 +42,7 @@ function SubjectForm({ subject, onDone }: { subject: AdminSubject | null; onDone
   })
   return (
     <form noValidate className="space-y-4" onSubmit={handleSubmit((v) => { setError(''); m.mutate(schema.parse(v)) })}>
-      {error && <p role="alert" className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">{error}</p>}
+      {error && <p role="alert" className="rounded-[4px] bg-danger-soft px-3 py-2 text-sm text-danger">{error}</p>}
       <Field label="Nombre" error={errors.name?.message}>{(p) => <Input {...p} {...register('name')} />}</Field>
       <Field label="Descripción" error={errors.description?.message}>{(p) => <Textarea {...p} {...register('description')} />}</Field>
       <div className="grid grid-cols-2 gap-4">

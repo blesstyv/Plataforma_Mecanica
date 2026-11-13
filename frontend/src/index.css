@@ -1,55 +1,30 @@
 @import '@fontsource-variable/inter';
-@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/geist-mono';
 @import 'tailwindcss';
 
-@custom-variant dark (&:where(.dark, .dark *));
-
-/* Identidad: azul profundo + grafito + acento cian. Tokens claros y oscuros completos. */
+/* Estilo "Neon": vacío negro, superficies grafito en capas, único acento verde eléctrico. Solo tema oscuro. */
 :root {
-  --bg: #f4f6fa;
-  --surface: #ffffff;
-  --surface-2: #eef2f7;
-  --ink: #0b1b2e;
-  --muted: #566579;
-  --line: #d9e0ea;
-  --primary: #0a2a5e;
-  --primary-hover: #123f8c;
-  --on-primary: #ffffff;
-  --accent: #0891b2;
-  --accent-soft: #e0f6fb;
-  --electric: #1e63e9;
-  --success: #0f7b4f;
-  --success-soft: #dff5ea;
-  --warn: #9a5b00;
-  --warn-soft: #fff1d6;
-  --danger: #b42318;
-  --danger-soft: #fde8e6;
-  --ring: #1e63e9;
-  --hero-from: #071c42;
-  --hero-to: #0d3b8c;
-}
-.dark {
-  --bg: #08111f;
-  --surface: #0f1b2e;
-  --surface-2: #14233b;
-  --ink: #e8eef8;
-  --muted: #9bb0c9;
-  --line: #243653;
-  --primary: #6aa5ff;
-  --primary-hover: #8dbaff;
-  --on-primary: #06142b;
-  --accent: #22d3ee;
-  --accent-soft: #0c2e3d;
-  --electric: #6aa5ff;
-  --success: #4ade9b;
-  --success-soft: #0c2f22;
-  --warn: #fbbf4a;
-  --warn-soft: #3a2a08;
-  --danger: #ff8a80;
-  --danger-soft: #3d1512;
-  --ring: #6aa5ff;
-  --hero-from: #050d1c;
-  --hero-to: #0b2a63;
+  --bg: #000000;
+  --surface: #151617;
+  --surface-2: #242628;
+  --ink: #ffffff;
+  --muted: #797d86;
+  --line: #303236;
+  --primary: #ffffff;
+  --primary-hover: #c9cbcf;
+  --on-primary: #151617;
+  --accent: #34d59a;
+  --accent-soft: #0e2a20;
+  --electric: #34d59a;
+  --success: #34d59a;
+  --success-soft: #0e2a20;
+  --warn: #c9cbcf;
+  --warn-soft: #242628;
+  --danger: #ff3621;
+  --danger-soft: #2a0f0b;
+  --ring: #34d59a;
+  --hero-from: #000000;
+  --hero-to: #000000;
 }
 
 @theme inline {
@@ -71,28 +46,28 @@
   --color-warn-soft: var(--warn-soft);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
-  --font-sans: 'Inter Variable', system-ui, sans-serif;
-  --font-display: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
-  --radius-card: 14px;
-  --shadow-card: 0 1px 2px rgb(10 30 60 / 0.06), 0 8px 24px -12px rgb(10 30 60 / 0.18);
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius-card: 4px;
+  --shadow-card: none;
 }
 
-html { color-scheme: light; scroll-behavior: smooth; }
-html.dark { color-scheme: dark; }
-body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.015em; }
-:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 6px; }
+html { color-scheme: dark; scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; letter-spacing: -0.01em; }
+h1, h2, h3 { font-family: var(--font-sans); font-weight: 500; letter-spacing: -0.03em; }
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 4px; }
+input[type='file']::file-selector-button { margin-right: 0.75rem; border: 0; border-radius: 9999px; background: var(--surface-2); color: var(--ink); padding: 0.25rem 0.9rem; font-size: 0.8rem; cursor: pointer; }
 
+/* Gráfico decorativo: finas líneas verticales tipo flujo de datos */
 .blueprint {
-  background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
+  background-image: repeating-linear-gradient(to right, rgb(52 213 154 / 0.22) 0 1px, transparent 1px 14px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 60%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 60%, transparent);
 }
 @keyframes spin-slow { to { transform: rotate(360deg); } }
 .gear-spin { animation: spin-slow 40s linear infinite; }
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-.skeleton { background: linear-gradient(90deg, var(--surface-2) 25%, var(--line) 50%, var(--surface-2) 75%); background-size: 200% 100%; animation: shimmer 1.6s infinite; border-radius: 8px; }
+.skeleton { background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.6s infinite; border-radius: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }

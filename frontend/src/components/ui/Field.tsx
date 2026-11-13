@@ -2,7 +2,7 @@ import { forwardRef, useId, type InputHTMLAttributes, type ReactNode, type Selec
 import { cn } from '@/lib/utils'
 
 const base =
-  'w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink placeholder:text-muted/80 transition-colors focus:border-electric disabled:opacity-60'
+  'w-full rounded-[4px] border border-line bg-surface px-3 text-sm text-ink placeholder:text-muted/80 transition-colors focus:border-electric disabled:opacity-60'
 
 interface FieldProps {
   label: string

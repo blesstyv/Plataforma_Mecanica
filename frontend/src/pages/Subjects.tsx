@@ -11,7 +11,7 @@ export default function Subjects() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <Breadcrumbs items={[{ label: 'Inicio', to: '/' }, { label: 'Asignaturas' }]} />
-      <h1 className="text-3xl font-bold">Asignaturas</h1>
+      <h1 className="text-3xl font-medium">Asignaturas</h1>
       <p className="mb-8 mt-2 text-muted">Todas las áreas de Mecánica Industrial disponibles para estudiar.</p>
       {q.isLoading ? (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{[0, 1, 2, 3, 4, 5].map((i) => <Skeleton key={i} className="h-52" />)}</div>

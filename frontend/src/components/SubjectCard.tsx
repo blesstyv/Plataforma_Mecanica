@@ -21,7 +21,7 @@ export function SubjectCard({ subject }: { subject: Subject }) {
         ) : (
           <>
             <div className="blueprint absolute inset-0" />
-            <Icon className="absolute bottom-3 left-4 size-10 text-cyan-300" strokeWidth={1.5} aria-hidden />
+            <Icon className="absolute bottom-3 left-4 size-10 text-accent" strokeWidth={1.5} aria-hidden />
           </>
         )}
       </div>

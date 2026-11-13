@@ -2,7 +2,6 @@ import { FolderTree, Layers, LayoutDashboard, FileStack, LogOut, Menu, X, Extern
 import { useState } from 'react'
 import { Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Logo } from '@/components/Logo'
-import { ThemeToggle } from '@/components/ThemeToggle'
 import { Spinner } from '@/components/ui/Feedback'
 import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/lib/utils'
@@ -23,7 +22,7 @@ export default function AdminLayout() {
   if (!user) return <Navigate to="/admin/login" replace state={{ from: loc.pathname }} />
 
   const link = ({ isActive }: { isActive: boolean }) =>
-    cn('flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors', isActive ? 'bg-primary text-on-primary' : 'text-ink hover:bg-surface-2')
+    cn('flex items-center gap-3 rounded-[4px] px-3 py-2.5 text-sm font-medium transition-colors', isActive ? 'bg-primary text-on-primary' : 'text-ink hover:bg-surface-2')
   const nav_ = (
     <nav aria-label="Administración" className="flex flex-col gap-1" onClick={() => setOpen(false)}>
       {items.map(({ to, label, icon: I, end }) => <NavLink key={to} to={to} end={end} className={link}><I className="size-4" aria-hidden />{label}</NavLink>)}
@@ -35,16 +34,16 @@ export default function AdminLayout() {
         <div className="flex items-center justify-between"><Logo to="/admin" /><button className="lg:hidden" aria-label="Cerrar menú" onClick={() => setOpen(false)}><X className="size-5" /></button></div>
         {nav_}
         <div className="mt-auto space-y-1 border-t border-line pt-4 text-sm">
-          <a href="/" target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium hover:bg-surface-2"><ExternalLink className="size-4" aria-hidden />Ver portal público</a>
-          <button onClick={async () => { await logout(); nav('/admin/login') }} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 font-medium hover:bg-surface-2"><LogOut className="size-4" aria-hidden />Cerrar sesión</button>
+          <a href="/" target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-[4px] px-3 py-2.5 font-medium hover:bg-surface-2"><ExternalLink className="size-4" aria-hidden />Ver portal público</a>
+          <button onClick={async () => { await logout(); nav('/admin/login') }} className="flex w-full items-center gap-3 rounded-[4px] px-3 py-2.5 font-medium hover:bg-surface-2"><LogOut className="size-4" aria-hidden />Cerrar sesión</button>
         </div>
       </aside>
       {open && <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={() => setOpen(false)} aria-hidden />}
       <div className="min-w-0">
-        <header className="flex h-16 items-center justify-between border-b border-line bg-surface/85 px-4 backdrop-blur sm:px-8">
-          <button className="grid size-9 place-items-center rounded-lg hover:bg-surface-2 lg:hidden" aria-label="Abrir menú" onClick={() => setOpen(true)}><Menu className="size-5" /></button>
+        <header className="flex h-16 items-center justify-between border-b border-line bg-black/80 px-4 backdrop-blur sm:px-8">
+          <button className="grid size-9 place-items-center rounded-[4px] hover:bg-surface-2 lg:hidden" aria-label="Abrir menú" onClick={() => setOpen(true)}><Menu className="size-5" /></button>
           <p className="hidden text-sm text-muted lg:block">Sesión de <span className="font-medium text-ink">{user.first_name || user.username}</span></p>
-          <ThemeToggle />
+          
         </header>
         <main className="px-4 py-8 sm:px-8"><Outlet /></main>
       </div>

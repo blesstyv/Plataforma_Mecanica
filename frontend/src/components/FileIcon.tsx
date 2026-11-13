@@ -13,7 +13,7 @@ const MAP: Record<string, { icon: LucideIcon; cls: string }> = {
 export function FileIcon({ type, className }: { type: string; className?: string }) {
   const { icon: Icon, cls } = MAP[type] ?? { icon: FileText, cls: 'bg-surface-2 text-muted' }
   return (
-    <div className={cn('grid size-11 shrink-0 place-items-center rounded-xl', cls, className)}>
+    <div className={cn('grid size-11 shrink-0 place-items-center rounded-[4px]', cls, className)}>
       <Icon className="size-5" aria-hidden />
     </div>
   )

@@ -16,8 +16,8 @@ export function Spinner({ label = 'Cargando…' }: { label?: string }) {
 
 export function EmptyState({ icon: Icon = Inbox, title, children, action }: { icon?: LucideIcon; title: string; children?: ReactNode; action?: ReactNode }) {
   return (
-    <div className="flex flex-col items-center rounded-2xl border border-dashed border-line bg-surface px-6 py-14 text-center">
-      <div className="mb-4 grid size-12 place-items-center rounded-xl bg-accent-soft text-accent">
+    <div className="flex flex-col items-center rounded-[4px] border border-dashed border-line bg-surface px-6 py-14 text-center">
+      <div className="mb-4 grid size-12 place-items-center rounded-[4px] bg-accent-soft text-accent">
         <Icon className="size-6" aria-hidden />
       </div>
       <h3 className="text-lg font-semibold">{title}</h3>
@@ -29,7 +29,7 @@ export function EmptyState({ icon: Icon = Inbox, title, children, action }: { ic
 
 export function ErrorState({ message, onRetry }: { message: string; onRetry?: () => void }) {
   return (
-    <div role="alert" className="flex flex-col items-center rounded-2xl border border-danger/30 bg-danger-soft px-6 py-10 text-center">
+    <div role="alert" className="flex flex-col items-center rounded-[4px] border border-danger/30 bg-danger-soft px-6 py-10 text-center">
       <AlertTriangle className="mb-3 size-8 text-danger" aria-hidden />
       <p className="max-w-md text-sm text-ink">{message}</p>
       {onRetry && (
@@ -48,5 +48,5 @@ export function Badge({ tone = 'neutral', children }: { tone?: 'neutral' | 'succ
     warn: 'bg-warn-soft text-warn',
     accent: 'bg-accent-soft text-accent',
   }
-  return <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium', tones[tone])}>{children}</span>
+  return <span className={cn('inline-flex items-center rounded-[4px] px-2 py-0.5 font-mono text-[11px] font-medium uppercase tracking-wide', tones[tone])}>{children}</span>
 }

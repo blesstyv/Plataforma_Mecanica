@@ -13,13 +13,13 @@ import NotFound from './NotFound'
 
 export function Viewer({ m, admin = false }: { m: Material; admin?: boolean }) {
   const isImage = ['jpg', 'jpeg', 'png'].includes(m.file_type)
-  if (isImage) return <img src={fileUrl(m.id, { admin })} alt={m.title} className="mx-auto max-h-[75vh] rounded-xl border border-line bg-surface object-contain" />
+  if (isImage) return <img src={fileUrl(m.id, { admin })} alt={m.title} className="mx-auto max-h-[75vh] rounded-[4px] border border-line bg-surface object-contain" />
   if (m.file_type === 'pdf' || m.has_preview) {
     const src = m.file_type === 'pdf' ? fileUrl(m.id, { admin }) : fileUrl(m.id, { preview: true, admin })
-    return <iframe title={`Visor: ${m.title}`} src={src} className="h-[75vh] w-full rounded-xl border border-line bg-surface" />
+    return <iframe title={`Visor: ${m.title}`} src={src} className="h-[75vh] w-full rounded-[4px] border border-line bg-surface" />
   }
   return (
-    <div className="grid place-items-center rounded-xl border border-dashed border-line bg-surface px-6 py-16 text-center">
+    <div className="grid place-items-center rounded-[4px] border border-dashed border-line bg-surface px-6 py-16 text-center">
       <Presentation className="mb-3 size-10 text-muted" aria-hidden />
       <p className="font-medium">Este formato no se puede visualizar en el navegador.</p>
       <p className="mt-1 max-w-md text-sm text-muted">{m.allow_download ? 'Descárgalo para abrirlo en tu equipo.' : 'El profesor no ha habilitado la descarga ni una vista previa de este documento.'}</p>
@@ -41,16 +41,16 @@ export default function MaterialDetail() {
         <div className="min-w-0 space-y-6">
           <div className="flex items-start gap-4">
             <FileIcon type={m.file_type} className="size-14" />
-            <div><h1 className="text-2xl font-bold sm:text-3xl">{m.title}</h1>
+            <div><h1 className="text-2xl font-medium sm:text-3xl">{m.title}</h1>
               <p className="mt-1 text-muted"><Link className="hover:underline" to={`/asignaturas/${m.subject_slug}`}>{m.subject_name}</Link> · {m.category_name}</p></div>
           </div>
           <Viewer m={m} />
         </div>
-        <aside className="h-fit space-y-5 rounded-2xl border border-line bg-surface p-5 shadow-card">
+        <aside className="h-fit space-y-5 rounded-[4px] border border-line bg-surface p-5 shadow-card">
           {m.allow_download ? (
             <a href={fileUrl(m.id, { download: true })} download><Button className="w-full"><Download className="size-4" aria-hidden /> Descargar {fileLabel(m.file_type)}</Button></a>
           ) : (
-            <p className="flex items-center gap-2 rounded-lg bg-surface-2 px-3 py-2.5 text-sm text-muted"><Lock className="size-4" aria-hidden /> Descarga no habilitada</p>
+            <p className="flex items-center gap-2 rounded-[4px] bg-surface-2 px-3 py-2.5 text-sm text-muted"><Lock className="size-4" aria-hidden /> Descarga no habilitada</p>
           )}
           {m.description && <div><h2 className="mb-1 text-sm font-semibold">Descripción</h2><p className="whitespace-pre-line text-sm text-muted">{m.description}</p></div>}
           <dl className="space-y-2 text-sm">

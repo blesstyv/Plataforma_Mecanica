@@ -41,14 +41,14 @@ export default function Materials() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <Breadcrumbs items={[{ label: 'Inicio', to: '/' }, { label: 'Biblioteca' }]} />
-      <h1 className="text-3xl font-bold">Biblioteca de materiales</h1>
+      <h1 className="text-3xl font-medium">Biblioteca de materiales</h1>
       <p className="mb-6 mt-2 text-muted">Busca entre todos los documentos publicados.</p>
 
-      <div role="search" className="mb-6 grid gap-3 rounded-2xl border border-line bg-surface p-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+      <div role="search" className="mb-6 grid gap-3 rounded-[4px] border border-line bg-surface p-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
         <div className="relative sm:col-span-2 lg:col-span-1">
           <label htmlFor="q" className="sr-only">Buscar</label>
           <Search className="pointer-events-none absolute left-3 top-3 size-4 text-muted" aria-hidden />
-          <input id="q" value={term} onChange={(e) => setTerm(e.target.value)} placeholder="Buscar por título o descripción" className="h-10 w-full rounded-lg border border-line bg-surface pl-9 pr-3 text-sm focus:border-electric" />
+          <input id="q" value={term} onChange={(e) => setTerm(e.target.value)} placeholder="Buscar por título o descripción" className="h-10 w-full rounded-[4px] border border-line bg-surface pl-9 pr-3 text-sm focus:border-electric" />
         </div>
         <div><label htmlFor="f-subject" className="sr-only">Asignatura</label>
           <Select id="f-subject" value={get('subject')} onChange={(e) => { const n = new URLSearchParams(sp); e.target.value ? n.set('subject', e.target.value) : n.delete('subject'); n.delete('category'); n.delete('page'); setSp(n, { replace: true }) }}>

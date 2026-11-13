@@ -22,7 +22,7 @@ describe('api', () => {
 
   it('reporta error de red', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => { throw new TypeError('fail') }))
-    const e = await api.get('/x/').catch((x) => x)
+    const e = (await api.get('/x/').catch((x) => x)) as ApiError
     expect(e).toBeInstanceOf(ApiError)
     expect(e.code).toBe('network_error')
   })

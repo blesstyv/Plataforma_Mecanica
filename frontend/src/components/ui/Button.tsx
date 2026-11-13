@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
 const styles: Record<Variant, string> = {
-  primary: 'bg-primary text-on-primary hover:bg-primary-hover shadow-sm',
+  primary: 'bg-primary text-on-primary hover:bg-primary-hover',
   secondary: 'bg-surface text-ink border border-line hover:bg-surface-2',
   ghost: 'text-ink hover:bg-surface-2',
   danger: 'bg-danger text-white hover:opacity-90',
@@ -22,8 +22,8 @@ export function Button({ variant = 'primary', size = 'md', loading, disabled, cl
       {...p}
       disabled={disabled || loading}
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60',
-        size === 'sm' ? 'h-8 px-3 text-sm' : 'h-10 px-4 text-sm',
+        'inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60',
+        size === 'sm' ? 'h-8 px-4 text-sm' : 'h-10 px-6 text-sm',
         styles[variant],
         className,
       )}

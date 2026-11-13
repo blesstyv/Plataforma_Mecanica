@@ -51,3 +51,6 @@ desktop.ini
 *.sqlite3-journal
 *.dump
 *.backup
+
+# Archivos privados locales del backend
+backend/private_media/

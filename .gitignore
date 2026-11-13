@@ -54,3 +54,7 @@ desktop.ini
 
 # Archivos privados locales del backend
 backend/private_media/
+
+# Resultados de pruebas
+frontend/test-results/
+frontend/playwright-report/

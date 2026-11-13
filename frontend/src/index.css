@@ -1,0 +1,99 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Identidad: azul profundo + grafito + acento cian. Tokens claros y oscuros completos. */
+:root {
+  --bg: #f4f6fa;
+  --surface: #ffffff;
+  --surface-2: #eef2f7;
+  --ink: #0b1b2e;
+  --muted: #566579;
+  --line: #d9e0ea;
+  --primary: #0a2a5e;
+  --primary-hover: #123f8c;
+  --on-primary: #ffffff;
+  --accent: #0891b2;
+  --accent-soft: #e0f6fb;
+  --electric: #1e63e9;
+  --success: #0f7b4f;
+  --success-soft: #dff5ea;
+  --warn: #9a5b00;
+  --warn-soft: #fff1d6;
+  --danger: #b42318;
+  --danger-soft: #fde8e6;
+  --ring: #1e63e9;
+  --hero-from: #071c42;
+  --hero-to: #0d3b8c;
+}
+.dark {
+  --bg: #08111f;
+  --surface: #0f1b2e;
+  --surface-2: #14233b;
+  --ink: #e8eef8;
+  --muted: #9bb0c9;
+  --line: #243653;
+  --primary: #6aa5ff;
+  --primary-hover: #8dbaff;
+  --on-primary: #06142b;
+  --accent: #22d3ee;
+  --accent-soft: #0c2e3d;
+  --electric: #6aa5ff;
+  --success: #4ade9b;
+  --success-soft: #0c2f22;
+  --warn: #fbbf4a;
+  --warn-soft: #3a2a08;
+  --danger: #ff8a80;
+  --danger-soft: #3d1512;
+  --ring: #6aa5ff;
+  --hero-from: #050d1c;
+  --hero-to: #0b2a63;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-electric: var(--electric);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-display: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
+  --radius-card: 14px;
+  --shadow-card: 0 1px 2px rgb(10 30 60 / 0.06), 0 8px 24px -12px rgb(10 30 60 / 0.18);
+}
+
+html { color-scheme: light; scroll-behavior: smooth; }
+html.dark { color-scheme: dark; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.015em; }
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 6px; }
+
+.blueprint {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.gear-spin { animation: spin-slow 40s linear infinite; }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.skeleton { background: linear-gradient(90deg, var(--surface-2) 25%, var(--line) 50%, var(--surface-2) 75%); background-size: 200% 100%; animation: shimmer 1.6s infinite; border-radius: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}

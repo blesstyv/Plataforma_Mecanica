@@ -11,6 +11,10 @@ if not USE_S3:
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
+SECURE_REDIRECT_EXEMPT = [r"^health/$"]  # el health check interno no sigue redirecciones
+_render_host = env("RENDER_EXTERNAL_HOSTNAME")
+if _render_host and _render_host not in ALLOWED_HOSTS:  # noqa: F405
+    ALLOWED_HOSTS.append(_render_host)  # noqa: F405
 SECURE_HSTS_SECONDS = int(env("SECURE_HSTS_SECONDS", "31536000"))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SESSION_COOKIE_SECURE = True

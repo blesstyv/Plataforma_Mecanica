@@ -4,7 +4,7 @@ Monolito modular con API REST. El navegador solo habla con la API; PostgreSQL y 
 
 ```
 Navegador ──► Vercel (React SPA) ──/api/*──► Render (Django + DRF) ──► PostgreSQL
-                                                    └──► Cloudflare R2 (bucket privado, URLs firmadas)
+                                                    └──► Supabase Storage / S3 compatible (bucket privado, URLs firmadas)
 ```
 
 ## Módulos del backend (`backend/apps`)
@@ -35,7 +35,7 @@ Subject 1─* Category(PROTECT) 1─* Material(PROTECT)
 ## Decisiones técnicas
 
 1. **Autenticación por sesión de Django + CSRF**, sin tokens en `localStorage`. Para que funcione con Vercel y Render en dominios distintos sin depender de cookies de terceros, el frontend **proxifica `/api/*` hacia Render** (rewrite de Vercel): para el navegador todo es *mismo origen* y las cookies son de primera parte (`SameSite=Lax`, `Secure`, `HttpOnly` para la sesión). En desarrollo, el proxy de Vite cumple el mismo papel.
-2. **Archivos privados**: ningún enlace público. `GET /materials/{id}/file/` verifica publicación y permiso; en producción responde 302 a una URL firmada de R2 (5 min por defecto, con `Content-Disposition`); en local transmite el archivo. Los borradores devuelven 404.
+2. **Archivos privados**: ningún enlace público. `GET /materials/{id}/file/` verifica publicación y permiso; en producción responde 302 a una URL firmada del bucket (o streaming con `S3_SERVE_MODE=stream`) (5 min por defecto, con `Content-Disposition`); en local transmite el archivo. Los borradores devuelven 404.
 3. **Validación de archivos** sin dependencias nativas: lista blanca de extensiones, comprobación del contenido real (firmas PDF/PNG/JPEG; estructura OOXML para DOCX/PPTX), tamaño máximo configurable, nombre saneado y clave de almacenamiento UUID.
 4. **PPTX/DOCX**: el navegador no los renderiza; el profesor adjunta un **PDF de vista previa** (`preview_key`) que se muestra en el visor. Sin PDF, se ofrece solo descarga (si está permitida). No se usa conversión automática para no depender de LibreOffice en Render.
 5. **Visor PDF/imagen** nativo del navegador (`<iframe>`/`<img>`, mismo origen; `X_FRAME_OPTIONS=SAMEORIGIN`). Evita un bundle de PDF.js; coste: sin controles personalizados.

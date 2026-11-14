@@ -5,24 +5,8 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/px/:path*",
-      "destination": "https://mecanilab-api.onrender.com/api/:path*"
-    },
-    {
-      "source": "/py/(.*)",
+      "source": "/api/(.*)",
       "destination": "https://mecanilab-api.onrender.com/api/$1"
-    },
-    {
-      "source": "/probe-health",
-      "destination": "https://mecanilab-api.onrender.com/health/"
-    },
-    {
-      "source": "/probe-ext/:path*",
-      "destination": "https://example.com/:path*"
-    },
-    {
-      "source": "/api/:path*",
-      "destination": "https://mecanilab-api.onrender.com/api/:path*"
     },
     {
       "source": "/((?!api/|assets/).*)",

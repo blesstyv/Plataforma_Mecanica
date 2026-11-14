@@ -127,6 +127,8 @@ if USE_S3:
     }
 
 MAX_UPLOAD_MB = int(env("MAX_UPLOAD_MB", "50"))
+# "redirect": 302 a URL firmada del bucket. "stream": Django lee el objeto y lo entrega (útil si el proveedor no soporta URLs firmadas).
+S3_SERVE_MODE = env("S3_SERVE_MODE", "redirect")
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
 ALLOWED_UPLOAD_EXTENSIONS = ["pdf", "pptx", "docx", "jpg", "jpeg", "png"]

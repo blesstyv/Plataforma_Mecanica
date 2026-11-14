@@ -1,25 +1,36 @@
-# Despliegue
+# Despliegue gratuito y sin tarjeta (Supabase + Render + Vercel)
 
-> Estado: **preparado, no desplegado**. Ningún recurso externo se creó. Lo siguiente requiere tus cuentas y credenciales.
+> Estado: **preparado, no desplegado**. Ningún recurso externo se creó.
+> Condiciones de los planes gratuitos (verificar en cada sitio antes de registrarte): [Render](https://render.com/articles/platforms-with-a-real-free-tier-for-developers-in-2026) no pide tarjeta; [Supabase](https://supabase.com/docs/guides/storage/uploads/file-limits) ofrece 1 GB de archivos y máx. 50 MB por archivo; Vercel Hobby es gratis.
 
-## 1. Cloudflare R2 (archivos)
-1. Cloudflare → R2 → *Create bucket* (p. ej. `mecanilab-files`). **Déjalo privado** (sin dominio público ni r2.dev).
-2. R2 → *Manage API tokens* → *Create API token* con permiso **Object Read & Write** limitado a ese bucket. Copia *Access Key ID* y *Secret Access Key* (se muestran una vez).
-3. Anota el *Account ID*: `S3_ENDPOINT_URL=https://<ACCOUNT_ID>.r2.cloudflarestorage.com`.
-4. Si usarás el visor desde un origen distinto al proxy, no necesitas CORS en el bucket: el `<iframe>` y las descargas navegan directamente a la URL firmada. Si más adelante haces `fetch` desde el navegador, añade una regla CORS con tu dominio.
+## 1. Supabase (PostgreSQL + archivos)
+1. Crea una cuenta en supabase.com y un proyecto (anota la contraseña de la base de datos y la **región**).
+2. **Base de datos**: *Connect* → *Session pooler* → copia la cadena (`postgresql://postgres.<ref>:<PASSWORD>@aws-0-<region>.pooler.supabase.com:5432/postgres`) y añade `?sslmode=require` al final. Usa el pooler: la conexión directa es solo IPv6 y puede fallar en Render.
+3. **Archivos**: *Storage* → *New bucket* → nombre `materiales`, **privado** (Public OFF).
+4. *Project Settings → Storage → S3 Connection*: copia el **Endpoint** (`https://<ref>.storage.supabase.co/storage/v1/s3`) y la **Región**; pulsa *New access key* y guarda *Access key ID* y *Secret access key* (el secreto se muestra una vez).
 
-Variables: `USE_S3=True`, `S3_BUCKET_NAME`, `S3_ENDPOINT_URL`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION=auto`.
+## 2. Render (API, plan Free)
+1. render.com → cuenta con GitHub → *New → Blueprint* → repositorio, rama `main` (`render.yaml` ya usa `plan: free`).
+2. Variables (solo en el panel):
 
-## 2. Render (API + PostgreSQL)
-1. Render → *New → Blueprint* → conecta `blesstyv/Plataforma_Mecanica` (usa [`render.yaml`](../../render.yaml)). Revisa el plan de la base de datos (puede tener costo).
-2. Completa las variables `sync:false`: `DJANGO_ALLOWED_HOSTS` (host de Render **y** el de Vercel, separados por comas), `CSRF_TRUSTED_ORIGINS` y `CORS_ALLOWED_ORIGINS` (`https://<tu-app>.vercel.app`) y las 4 de R2. `DJANGO_SECRET_KEY` y `DATABASE_URL` se generan solos.
-3. El build ejecuta `backend/build.sh` (instala, `collectstatic`, `migrate`). Health check: `/health/`.
-4. Crea el profesor en *Shell* de Render: `python manage.py create_teacher --username profesor` (con `DJANGO_TEACHER_PASSWORD` definida temporalmente, o `--password`). Opcional: `python manage.py seed_subjects --publish`.
+| Variable | Valor |
+|---|---|
+| `DATABASE_URL` | cadena del Session pooler (paso 1.2) |
+| `S3_BUCKET_NAME` | `materiales` |
+| `S3_ENDPOINT_URL` | endpoint del paso 1.4 |
+| `S3_REGION` | región real del proyecto (p. ej. `us-east-1`) |
+| `S3_ACCESS_KEY_ID` / `S3_SECRET_ACCESS_KEY` | claves del paso 1.4 |
+| `DJANGO_TEACHER_USERNAME` / `DJANGO_TEACHER_PASSWORD` | **tu usuario y contraseña de administrador** |
+| `DJANGO_ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`, `CORS_ALLOWED_ORIGINS` | se completan tras Vercel (ver abajo) |
 
-## 3. Vercel (frontend)
-1. Importa el repositorio, **Root Directory = `frontend`** (Vite se detecta solo).
-2. Edita [`frontend/vercel.json`](../../frontend/vercel.json): reemplaza `REEMPLAZAR-HOST-DE-RENDER.onrender.com` por el host real de Render. Ese rewrite hace que `/api/*` sea *mismo origen* (cookies de primera parte). Si se despliega sin cambiarlo, la API no responderá.
-3. Si Vercel envía el `Host` original en el proxy, añade ese dominio a `DJANGO_ALLOWED_HOSTS`.
+3. El build instala, migra y **crea/actualiza tu usuario administrador** desde esas dos variables (el plan gratuito no garantiza Shell). La contraseña se guarda cifrada en la base de datos.
+4. Si las descargas fallan por URLs firmadas, define `S3_SERVE_MODE=stream`.
+5. Limitaciones del plan gratuito: el servicio **se duerme tras 15 min sin visitas** (la primera visita tarda ~1 min); los archivos NO se pierden porque viven en Supabase.
+
+## 3. Vercel (web, plan Hobby)
+1. Edita `frontend/vercel.json`: reemplaza `REEMPLAZAR-HOST-DE-RENDER.onrender.com` por tu host de Render.
+2. vercel.com → *Add New → Project* → repositorio, **Root Directory = `frontend`** → Deploy.
+3. Vuelve a Render y completa: `DJANGO_ALLOWED_HOSTS` = `<host-render>,<app>.vercel.app`; `CSRF_TRUSTED_ORIGINS` y `CORS_ALLOWED_ORIGINS` = `https://<app>.vercel.app`.
 
 ## 4. Verificación posterior
 - `https://<render>/health/` → `{"status":"ok"}`.
@@ -28,7 +39,7 @@ Variables: `USE_S3=True`, `S3_BUCKET_NAME`, `S3_ENDPOINT_URL`, `S3_ACCESS_KEY_ID
 
 ## Respaldo y recuperación
 - PostgreSQL: usa los backups automáticos del plan de Render y un `pg_dump` periódico (`pg_dump "$DATABASE_URL" -Fc -f backup.dump`); restaura con `pg_restore -d <nueva_url> backup.dump`.
-- R2: activa *Object Versioning* o replica con `rclone sync` a otro bucket. La base guarda solo claves: restaurar BD + bucket reconstruye el sistema.
+- Archivos: descarga periódicamente el bucket (Supabase Storage / `rclone` con la API S3) a tu equipo. La base guarda solo claves: restaurar BD + bucket reconstruye el sistema.
 - Recuperación total: nuevo servicio Render con el mismo `render.yaml`, mismas variables, restaurar BD, apuntar al bucket.
 
 ## Seguridad en producción (ya aplicada en `config/settings/production.py`)

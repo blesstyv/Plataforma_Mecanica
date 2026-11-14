@@ -99,7 +99,7 @@ def serve_file(key, filename, mime, download=False):
     """URL firmada temporal (S3/R2) o streaming autorizado (disco local)."""
     disposition = "attachment" if download else "inline"
     safe = sanitize_filename(filename)
-    if settings.USE_S3:
+    if settings.USE_S3 and settings.S3_SERVE_MODE != "stream":
         url = default_storage.url(
             key,
             parameters={

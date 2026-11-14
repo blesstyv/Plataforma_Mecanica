@@ -9,9 +9,9 @@ Plataforma web para que un docente organice, publique y comparta material de est
 | Frontend | React 19, TypeScript, Vite, React Router, Tailwind CSS 4, TanStack Query, React Hook Form + Zod, Radix UI (diálogos), Lucide, Motion |
 | Backend | Django 5.2 LTS, Django REST Framework, django-filter, drf-spectacular (OpenAPI), WhiteNoise, Gunicorn |
 | Datos | PostgreSQL (psycopg 3) |
-| Archivos | Disco privado local en desarrollo · S3 compatible (Cloudflare R2) en producción, con URLs firmadas temporales |
+| Archivos | Disco privado local en desarrollo · S3 compatible (Supabase Storage, gratis) en producción, con URLs firmadas temporales |
 | Pruebas | pytest + pytest-django · Vitest + Testing Library · Playwright |
-| Despliegue | Vercel (frontend) · Render (API + PostgreSQL) · Cloudflare R2 (archivos) |
+| Despliegue | Vercel (frontend) · Render plan gratuito (API) · Supabase (PostgreSQL + archivos), todo sin tarjeta |
 
 ## Requisitos
 
@@ -70,5 +70,5 @@ render.yaml · frontend/vercel.json · .github/workflows/ci.yml
 
 - [Arquitectura y modelo de datos](docs/architecture/README.md)
 - [API REST](docs/api/README.md)
-- [Despliegue (Vercel, Render, PostgreSQL, R2)](docs/deployment/README.md)
+- [Despliegue (Supabase + Render + Vercel, gratis)](docs/deployment/README.md)
 - [Registro de desarrollo, limitaciones y futuro](docs/DEVLOG.md)

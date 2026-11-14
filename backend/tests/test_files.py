@@ -68,3 +68,11 @@ def test_physical_file_removed_on_delete(teacher_api, category):
     assert default_storage.exists(key)
     teacher_api.delete(f"/api/v1/admin/materials/{mid}/")
     assert not default_storage.exists(key)
+
+
+def test_s3_stream_mode_serves_through_django(published_material, settings, api):
+    """Con S3_SERVE_MODE=stream la entrega pasa por Django (sin redirigir al bucket)."""
+    settings.USE_S3 = True
+    settings.S3_SERVE_MODE = "stream"
+    r = api.get(f"/api/v1/materials/{published_material.pk}/file/")
+    assert r.status_code == 200 and b"%PDF-" in b"".join(r.streaming_content)

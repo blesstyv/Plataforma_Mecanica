@@ -1,34 +1,28 @@
-# Blueprint de Render (declarativo). NO se aplica solo: créalo desde el panel de Render
-# (New > Blueprint). Revisa los planes: la base de datos y el servicio pueden tener costo.
+# Blueprint de Render con plan GRATUITO (sin tarjeta). Base de datos y archivos viven en Supabase (gratis).
+# Se crea desde el panel de Render (New > Blueprint); nada se aplica solo.
 services:
   - type: web
     name: mecanilab-api
     runtime: python
+    plan: free
     rootDir: backend
     buildCommand: ./build.sh
-    startCommand: gunicorn config.wsgi:application --workers 2 --timeout 60 --access-logfile -
+    startCommand: gunicorn config.wsgi:application --workers 1 --timeout 60 --access-logfile -
     healthCheckPath: /health/
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.13.5
-      - key: DJANGO_SETTINGS_MODULE
-        value: config.settings.production
-      - key: DJANGO_SECRET_KEY
-        generateValue: true
-      - key: DATABASE_URL
-        fromDatabase: { name: mecanilab-db, property: connectionString }
-      - key: USE_S3
-        value: "True"
-      # Dominio de Vercel del frontend (con https://). Se completa en el panel:
+      - { key: PYTHON_VERSION, value: 3.13.5 }
+      - { key: DJANGO_SETTINGS_MODULE, value: config.settings.production }
+      - { key: DJANGO_SECRET_KEY, generateValue: true }
+      - { key: USE_S3, value: "True" }
+      # Se escriben solo en el panel de Render (secretos):
+      - { key: DATABASE_URL, sync: false }          # Supabase: cadena del "Session pooler"
       - { key: DJANGO_ALLOWED_HOSTS, sync: false }
       - { key: CSRF_TRUSTED_ORIGINS, sync: false }
       - { key: CORS_ALLOWED_ORIGINS, sync: false }
-      # Credenciales de Cloudflare R2 (secretos, se escriben solo en el panel):
       - { key: S3_BUCKET_NAME, sync: false }
       - { key: S3_ENDPOINT_URL, sync: false }
+      - { key: S3_REGION, sync: false }
       - { key: S3_ACCESS_KEY_ID, sync: false }
       - { key: S3_SECRET_ACCESS_KEY, sync: false }
-databases:
-  - name: mecanilab-db
-    databaseName: plataforma_mecanica
-    plan: basic-256mb   # ajusta según tu presupuesto
+      - { key: DJANGO_TEACHER_USERNAME, sync: false }
+      - { key: DJANGO_TEACHER_PASSWORD, sync: false }

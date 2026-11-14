@@ -4,15 +4,35 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://mecanilab-api.onrender.com/api/:path*" },
-    { "source": "/((?!api/|assets/).*)", "destination": "/index.html" }
+    {
+      "source": "/probe-health",
+      "destination": "https://mecanilab-api.onrender.com/health/"
+    },
+    {
+      "source": "/probe-ext/:path*",
+      "destination": "https://example.com/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://mecanilab-api.onrender.com/api/:path*"
+    },
+    {
+      "source": "/((?!api/|assets/).*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "same-origin" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "same-origin"
+        }
       ]
     }
   ]
